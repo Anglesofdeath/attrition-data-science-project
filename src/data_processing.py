@@ -46,7 +46,7 @@ class DataProcessing:
         self.df['Work Domain'] = self.df['Work Domain'].apply(cef.changeCategoryOfWorkDomain)
         self.logger.info("Redid categories of Work Domain Feature")
 
-        self.df['Weekly Hours'] = self.df.apply(lambda x: cef.weeklyHours(x['Usage Rate'], x['Usage Time']), axis = 1)
+        self.df['Weekly Hours'] = self.df.apply(lambda x: cef.createWeeklyHours(x['Usage Rate'], x['Usage Time']), axis = 1)
         self.logger.info("Created Weekly Hours feature")
 
         self.df.reset_index()
