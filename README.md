@@ -33,14 +33,18 @@ The pipeline works by executing the run.sh file. This will then run the main.py 
 &emsp; 3. The main.py file will then run all 3 functions that run the different ML algorithms. If the ['Run'] field in the Algorithm's class in the config file is set to False it will skip the running of the algorithm. If the ['Run'] == ['True'] and ['GridCV'] == ['False'] it will run the algorithm with the predefined hyperparameters that were chosen after performing the Grid Search CV shown in **model.py**. If ['GridCV'] == ['True'], It will run a Grid Search Cross Validation and then run the algorithm using the hyper-parameters that resulted in the highest recall (evaluation metric chosen). It will then log the results of the recall, accuracy and f1 test so that the results can be seen by the user. Accuracy and f1 are given for user info but evaluation metric used is recall. 
 ##### Evaluation Metrics used
 The goal is to help the country club reduce attrition. Therefore, the model's goal is to be able to predict based on the given features which members are likely to Attrition: Yes (1). Therefore, the cost associated with a false negative (so predicting that a member is likely to stay but the member leaves) is high. Therefore, the metric of choice is recall. This is because, so long we minimize false negatives, the country club can focus on retaining the members the model predicts as going to leave (Attrition = 1) without having to worry that they might lose members from the No output (Attrition = 0). The recall scores for the models were:
+
 &emsp; Random Forest: 1.0   
 &emsp; Logistic Regression: 1.0  
 &emsp; KNN: 0.92
 
 With accuracy scores of: 
+
 &emsp; Random Forest: 81.2%   
 &emsp; Logistic Regression: 81.2%  
 &emsp; KNN: 77.3%
+
+Based on the fact that recall scores are the same for both the Random Forest and Logistic Regression classifier, my choice would the Logistic Regression classifier. This is because, I would prefer the simpler classifier in this case as its likely to generalize better. 
 ##### Reason for choice of models: 
 This is a binary classification so one of the best models to use for that is logistic regression. 
 I chose Random Forest classifier because interpretability of the results is not a big deal as we are simply trying to predict if a customer is a no-show or show. Hence, its useful in this scenario.    
@@ -48,3 +52,7 @@ I chose KNN because it is useful for classifying in this scenario as there reall
 
 ##### Key findings from EDA: 
 The main takeaway is that none of the features on their own is well correlated with the target. We also found out that of the features chosen for the modelling there was minimal correlation between them (can be seen in EDA). 
+
+##### Improvements that can be made
+    1. One of the biggest improvements I would like to make would be to implement a K-fold cross validation for the dataset when choosing our hyperparameters (on top of the Grid CV). We only have around 2000+ datapoints which is not a lot for training a ML model considering we are using 7 features. 
+    2. I would also have preferred considering the size of the dataset, to further reduce the number of features used. However, I am unsure what to take away. 
