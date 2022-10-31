@@ -24,7 +24,7 @@ class Model:
             self.logger.info("Random Forest Skipped")
             return
         self.logger.info("Running Random Forest")
-        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time", "Total Hours"]
+        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time"]
         X = self.data.drop(drop_columns_name, axis = 1)
 
         y = self.data["Attrition"]
@@ -74,7 +74,7 @@ class Model:
             self.logger.info("Logistic Regression Skipped")
             return
         self.logger.info("Running Logistic Regression")
-        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time", "Total Hours"]
+        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time"]
         X = self.data.drop(drop_columns_name, axis = 1)
 
         y = self.data["Attrition"]
@@ -123,7 +123,7 @@ class Model:
             self.logger.info("KNN Skipped")
             return
         self.logger.info("Running KNN")
-        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time", "Total Hours"]
+        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time"]
         X = self.data.drop(drop_columns_name, axis = 1)
 
         y = self.data["Attrition"]
