@@ -30,7 +30,7 @@ class Model:
 
         y = self.data["Attrition"]
         scaler = MinMaxScaler()
-        norm_df = pd.DataFrame(scaler.fit_transform(X[['Monthly Income', 'Weekly Hours', 'Client Age', 'Months']]).toarray())
+        norm_df = pd.DataFrame(scaler.fit_transform(X[['Monthly Income', 'Weekly Hours', 'Client Age', 'Months']]))
         
         enc = OneHotEncoder(handle_unknown="ignore")
         encoder_df = pd.DataFrame(enc.fit_transform(X[['Branch', 'Work Domain']]).toarray())
