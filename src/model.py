@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection._split import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
@@ -28,13 +29,19 @@ class Model:
         X = self.data.drop(drop_columns_name, axis = 1)
 
         y = self.data["Attrition"]
-
+        scaler = MinMaxScaler()
+        norm_df = pd.DataFrame(scaler.fit_transform(X[['Monthly Income', 'Weekly Hours', 'Client Age', 'Months']]).toarray())
+        
         enc = OneHotEncoder(handle_unknown="ignore")
         encoder_df = pd.DataFrame(enc.fit_transform(X[['Branch', 'Work Domain']]).toarray())
+
         X.reset_index()
         encoder_df.reset_index()
+        norm_df.reset_index()
+
         X = X.join(encoder_df)
-        X = X.drop(['Branch', 'Work Domain'], axis = 1)
+        X = X.join(norm_df)
+        X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)
         X_train, X_test, y_train, y_test = train_test_split(
             encoder_df, y, test_size=0.2, random_state=2
         )
@@ -51,7 +58,7 @@ class Model:
 
             # Create grid search object
 
-            clf = GridSearchCV(pipe, param_grid = param_grid, cv = 2, verbose=True, n_jobs=-1, scoring = 'accuracy')
+            clf = GridSearchCV(pipe, param_grid = param_grid, cv = 2, verbose=True, n_jobs=-1, scoring = 'recall')
 
             # Fit on data
 
@@ -100,7 +107,7 @@ class Model:
             ]
             # Create grid search object
 
-            clf = GridSearchCV(pipe, param_grid = param_grid, cv = 2, verbose=True, n_jobs=-1, scoring = 'accuracy')
+            clf = GridSearchCV(pipe, param_grid = param_grid, cv = 2, verbose=True, n_jobs=-1, scoring = 'recall')
 
             # Fit on data
 
@@ -149,7 +156,7 @@ class Model:
 
             # Create grid search object
 
-            clf = GridSearchCV(pipe, param_grid = param_grid, cv = 2, verbose=True, n_jobs=-1, scoring = 'accuracy')
+            clf = GridSearchCV(pipe, param_grid = param_grid, cv = 2, verbose=True, n_jobs=-1, scoring = 'recall')
 
             # Fit on data
 
