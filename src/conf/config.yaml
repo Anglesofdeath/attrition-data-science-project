@@ -1,16 +1,16 @@
 Logistic:
-  Run: False
-  GridCV: False
+  Run: True
+  GridCV: True
   Penalty: 'l2' #found after running GridCV
   C: 0.75 #found after running GridCV
   Solver: 'lbfgs' #found after running GridCV
 
 RandomForest:
   Run: True
-  GridCV: False
+  GridCV: True
   MaxDepth: 22 #found after running GridCV
 
 KNN:
-  Run: False
-  GridCV: False
+  Run: True
+  GridCV: True
   N_Neighbors: 6
