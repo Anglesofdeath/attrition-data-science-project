@@ -25,7 +25,7 @@ class Model:
             self.logger.info("Random Forest Skipped")
             return
         self.logger.info("Running Random Forest")
-        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time"]
+        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time", "Member Unique ID", "Birth Year"]
         X = self.data.drop(drop_columns_name, axis = 1)
 
         y = self.data["Attrition"]
@@ -39,9 +39,13 @@ class Model:
         encoder_df.reset_index()
         norm_df.reset_index()
 
-        X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)
-        X = X.join(encoder_df)
-        X = X.join(norm_df)
+        X = X.join(norm_df, rsuffix = 'norm')
+        X = X.join(encoder_df, rsuffix = 'onehot')
+        X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)        
+        
+        
+        
+
         X_train, X_test, y_train, y_test = train_test_split(
             encoder_df, y, test_size=0.2, random_state=2
         )
@@ -53,7 +57,7 @@ class Model:
 
             param_grid = [
                 {'classifier' : [RandomForestClassifier()],
-                'classifier__max_depth': list(range(5, 25))} 
+                'classifier__max_depth': list(range(2, 25))} 
             ]
 
             # Create grid search object
@@ -81,17 +85,25 @@ class Model:
             self.logger.info("Logistic Regression Skipped")
             return
         self.logger.info("Running Logistic Regression")
-        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time"]
+
+        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time", "Member Unique ID", "Birth Year"]
         X = self.data.drop(drop_columns_name, axis = 1)
 
         y = self.data["Attrition"]
-
+        scaler = MinMaxScaler()
+        norm_df = pd.DataFrame(scaler.fit_transform(X[['Monthly Income', 'Weekly Hours', 'Client Age', 'Months']]))
+        
         enc = OneHotEncoder(handle_unknown="ignore")
         encoder_df = pd.DataFrame(enc.fit_transform(X[['Branch', 'Work Domain']]).toarray())
+
         X.reset_index()
         encoder_df.reset_index()
-        X = X.join(encoder_df)
-        X = X.drop(['Branch', 'Work Domain'], axis = 1)
+        norm_df.reset_index()
+
+        X = X.join(norm_df, rsuffix = 'norm')
+        X = X.join(encoder_df, rsuffix = 'onehot')
+        X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)        
+
         X_train, X_test, y_train, y_test = train_test_split(
             encoder_df, y, test_size=0.2, random_state=2
         )
@@ -130,17 +142,25 @@ class Model:
             self.logger.info("KNN Skipped")
             return
         self.logger.info("Running KNN")
-        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time"]
+
+        drop_columns_name = ["Age", "Gender", "Travel Time", "Usage Rate", "Usage Time", "Member Unique ID", "Birth Year"]
         X = self.data.drop(drop_columns_name, axis = 1)
 
         y = self.data["Attrition"]
-
+        scaler = MinMaxScaler()
+        norm_df = pd.DataFrame(scaler.fit_transform(X[['Monthly Income', 'Weekly Hours', 'Client Age', 'Months']]))
+        
         enc = OneHotEncoder(handle_unknown="ignore")
         encoder_df = pd.DataFrame(enc.fit_transform(X[['Branch', 'Work Domain']]).toarray())
+
         X.reset_index()
         encoder_df.reset_index()
-        X = X.join(encoder_df)
-        X = X.drop(['Branch', 'Work Domain'], axis = 1)
+        norm_df.reset_index()
+
+        X = X.join(norm_df, rsuffix = 'norm')
+        X = X.join(encoder_df, rsuffix = 'onehot')
+        X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)
+
         X_train, X_test, y_train, y_test = train_test_split(
             encoder_df, y, test_size=0.2, random_state=2
         )
@@ -151,7 +171,7 @@ class Model:
 
             param_grid = [
                 {'classifier' : [KNeighborsClassifier()],
-                'classifier__n_neighbors': list(range(5, 8))},
+                'classifier__n_neighbors': list(range(1, 8))},
             ]
 
             # Create grid search object
