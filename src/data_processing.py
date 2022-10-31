@@ -30,7 +30,7 @@ class DataProcessing:
         self.logger.info("Starting data cleaning and Feature Engineering")
         self.df.drop(index = [1833, 2215], inplace=True)
         self.df.at[1992, 'Age'] = 18.0
-        self.logger.inf("Dropped rows with too many incorrect datapoints as found in eda and changing datapoint with 1 incorrect entry")
+        self.logger.info("Dropped rows with too many incorrect datapoints as found in eda and changing datapoint with 1 incorrect entry")
         self.logger.info(f"Size of DataFrame: {self.df.shape[0]}")
 
         self.df['Birth Year'] = self.df['Birth Year'].mask(self.df['Birth Year'] < 0)
@@ -51,6 +51,6 @@ class DataProcessing:
 
         self.df.reset_index()
         self.logger.info("index reset")
-        
+
         self.logger.info("Finished Data Cleaning and Feature Engineering")
         return self.df
