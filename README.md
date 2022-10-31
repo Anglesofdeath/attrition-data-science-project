@@ -54,5 +54,5 @@ I chose KNN because it is useful for classifying in this scenario as there reall
 The main takeaway is that none of the features on their own is well correlated with the target. We also found out that of the features chosen for the modelling there was minimal correlation between them (can be seen in EDA). 
 
 ##### Improvements that can be made
-    1. One of the biggest improvements I would like to make would be to implement a K-fold cross validation for the dataset when choosing our hyperparameters (on top of the Grid CV). We only have around 2000+ datapoints which is not a lot for training a ML model considering we are using 7 features. 
-    2. I would also have preferred considering the size of the dataset, to further reduce the number of features used. However, I am unsure what to take away. 
+1. One of the biggest improvements I would like to make would be to implement a K-fold cross validation for the dataset when choosing our hyperparameters (on top of the Grid CV). We only have around 2000+ datapoints which is not a lot for training a ML model considering we are using 7 features. 
+2. I would also have preferred considering the size of the dataset, to further reduce the number of features used. However, I am unsure what to take away. 
