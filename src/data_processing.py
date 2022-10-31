@@ -28,23 +28,26 @@ class DataProcessing:
 
     def clean_data(self):
         self.logger.info("Starting data cleaning and Feature Engineering")
-        self.df.drop(index = [1833, 2215], inplace=True)
-        self.df.at[1992, 'Age'] = 18.0
-        self.logger.info("Dropped rows with too many incorrect datapoints as found in eda and changing datapoint with 1 incorrect entry")
         self.logger.info(f"Size of DataFrame: {self.df.shape[0]}")
 
-        self.df['Birth Year'] = self.df['Birth Year'].mask(self.df['Birth Year'] < 0)
-        self.df['Age'] = self.df['Age'].mask(self.df['Age'] < 0)
-        self.logger.info("Set Birth Year and Age negative values to NaN")
-        self.df['Client Age'] = self.df['Birth Year'].apply(cef.convertYearToClientAge)
-        self.logger.info("Created Client Age Column with NaN entries")
-        self.df['Age'] = self.df.apply(lambda x: cef.fillInMissingAgeValues(x['Age'], x['Client Age'], x['Months']), axis = 1)
-        self.df['Birth Year'] = self.df.apply(lambda x: cef.fillInMissingBirthYearValues(x['Age'], x['Birth Year'], x['Months']), axis = 1)
-        self.df['Client Age'] = self.df['Birth Year'].apply(cef.convertYearToClientAge) #to fill in all the previously NaN values in Client Age
-        self.logger.info("Created Client Age feature")
-
+        #self.df['Birth Year'] = self.df['Birth Year'].mask(self.df['Birth Year'] < 0)
+        #self.df['Age'] = self.df['Age'].mask(self.df['Age'] < 0)
+        #self.logger.info("Set Birth Year and Age negative values to NaN")
+        #self.df['Client Age'] = self.df['Birth Year'].apply(cef.convertYearToClientAge)
+        #self.logger.info("Created Client Age Column with NaN entries")
+        #self.df['Age'] = self.df.apply(lambda x: cef.fillInMissingAgeValues(x['Age'], x['Client Age'], x['Months']), axis = 1)
+        #self.df['Birth Year'] = self.df.apply(lambda x: cef.fillInMissingBirthYearValues(x['Age'], x['Birth Year'], x['Months']), axis = 1)
+        #self.df['Client Age'] = self.df['Birth Year'].apply(cef.convertYearToClientAge) #to fill in all the previously NaN values in Client Age
+        #self.logger.info("Created Client Age feature")
+        
         self.df['Work Domain'] = self.df['Work Domain'].apply(cef.changeCategoryOfWorkDomain)
         self.logger.info("Redid categories of Work Domain Feature")
+
+        self.df['Membership'] = self.df['Membership'].apply(cef.ordinalEncodingMembership)
+        self.logger.info("Ordinal Encoded Membership")
+
+        self.df['Qualification'] = self.df['Qualification'].apply(cef.ordinalEncodingQualifications)
+        self.logger.info("Ordinal Encoded Qualification")
 
         self.df['Weekly Hours'] = self.df.apply(lambda x: cef.createWeeklyHours(x['Usage Rate'], x['Usage Time']), axis = 1)
         self.logger.info("Created Weekly Hours feature")

@@ -34,15 +34,15 @@ The pipeline works by executing the run.sh file. This will then run the main.py 
 ##### Evaluation Metrics used
 The goal is to help the country club reduce attrition. Therefore, the model's goal is to be able to predict based on the given features which members are likely to Attrition: Yes (1). Therefore, the cost associated with a false negative (so predicting that a member is likely to stay but the member leaves) is high. Therefore, the metric of choice is recall. This is because, so long we minimize false negatives, the country club can focus on retaining the members the model predicts as going to leave (Attrition = 1) without having to worry that they might lose members from the No output (Attrition = 0). The recall scores for the models were:
 
-&emsp; Random Forest: 1.0   
+&emsp; Random Forest: 0.93   
 &emsp; Logistic Regression: 1.0  
-&emsp; KNN: 0.92
+&emsp; KNN: 0.87
 
 With accuracy scores of: 
 
-&emsp; Random Forest: 81.2%   
-&emsp; Logistic Regression: 81.2%  
-&emsp; KNN: 77.3%
+&emsp; Random Forest: 80.8%   
+&emsp; Logistic Regression: 83.6%  
+&emsp; KNN: 75.7%
 
 Based on the fact that recall scores are the same for both the Random Forest and Logistic Regression classifier, my choice would the Logistic Regression classifier. This is because, I would prefer the simpler classifier in this case as its likely to generalize better. 
 ##### Reason for choice of models: 
@@ -54,5 +54,5 @@ I chose KNN because it is useful for classifying in this scenario as there reall
 The main takeaway is that none of the features on their own is well correlated with the target. We also found out that of the features chosen for the modelling there was minimal correlation between them (can be seen in EDA). 
 
 ##### Improvements that can be made
-1. One of the biggest improvements I would like to make would be to implement a K-fold cross validation for the dataset when choosing our hyperparameters (on top of the Grid CV). We only have around 2000+ datapoints which is not a lot for training a ML model considering we are using 7 features. 
+1. One of the biggest improvements I would like to make would be to implement a K-fold cross validation for the dataset when choosing our hyperparameters (on top of the Grid CV). We only have around 2000+ datapoints which is not a lot for training a ML model considering we are using 8 features. 
 2. I would also have preferred considering the size of the dataset, to further reduce the number of features used. However, I am unsure what to take away. 

@@ -6,11 +6,11 @@ Logistic:
   Solver: 'liblinear' #found after running GridCV
 
 RandomForest:
-  Run: False
+  Run: True
   GridCV: False
-  MaxDepth: 4 #found after running GridCV
+  MaxDepth: 23 #found after running GridCV
 
 KNN:
-  Run: False
+  Run: True
   GridCV: False
   N_Neighbors: 1 #found after running GridCV
