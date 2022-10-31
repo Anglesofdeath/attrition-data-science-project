@@ -9,7 +9,7 @@ from sklearn.model_selection._split import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, recall_score
 from sklearn.neighbors import KNeighborsClassifier
 from src.cleaning_engineering_functions import read_yaml
 
@@ -44,10 +44,8 @@ class Model:
         X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)        
         
         
-        
-
         X_train, X_test, y_train, y_test = train_test_split(
-            encoder_df, y, test_size=0.2, random_state=2
+            encoder_df, y, test_size=0.2, random_state=2, stratify=X[['Membership', 'Qualification']]
         )
 
         #checking if run GridSearch -- based on config setting
@@ -75,7 +73,8 @@ class Model:
             clf = RandomForestClassifier(max_depth = config_file['RandomForest']['MaxDepth'], random_state=42)
             clf.fit(X_train, y_train)
             y_pred = clf.predict(X_test)
-            
+
+        self.logger.info(f"Recall score: {recall_score(y_test, y_pred, pos_label = 0)}")
         self.logger.info(f"Accuracy score: {accuracy_score(y_test, y_pred)}")
         self.logger.info(f"f1 score: {f1_score(y_test, y_pred, average='macro')}")
 
@@ -105,7 +104,7 @@ class Model:
         X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)        
 
         X_train, X_test, y_train, y_test = train_test_split(
-            encoder_df, y, test_size=0.2, random_state=2
+            encoder_df, y, test_size=0.2, random_state=2, stratify=X[['Membership', 'Qualification']]
         )
         #checking if run GridSearch -- based on config file
         if config_file['Logistic']['GridCV'] == True:
@@ -133,6 +132,7 @@ class Model:
             clf.fit(X_train, y_train)
             y_pred = clf.predict(X_test)
 
+        self.logger.info(f"Recall score: {recall_score(y_test, y_pred, pos_label = 0)}")
         self.logger.info(f"Accuracy score: {accuracy_score(y_test, y_pred)}")
         self.logger.info(f"f1 score: {f1_score(y_test, y_pred, average='macro')}")
 
@@ -162,8 +162,9 @@ class Model:
         X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)
 
         X_train, X_test, y_train, y_test = train_test_split(
-            encoder_df, y, test_size=0.2, random_state=2
+            encoder_df, y, test_size=0.2, random_state=2, stratify=X[['Membership', 'Qualification']]
         )
+
         if config_file['KNN']['GridCV'] == True:
             self.logger.info("Running Grid CV")
             pipe = Pipeline([('classifier' , KNeighborsClassifier)])
@@ -191,5 +192,6 @@ class Model:
             clf.fit(X_train, y_train)
             y_pred = clf.predict(X_test)
         
+        self.logger.info(f"Recall score: {recall_score(y_test, y_pred, pos_label = 0)}")
         self.logger.info(f"Accuracy score: {accuracy_score(y_test, y_pred)}")
         self.logger.info(f"f1 score: {f1_score(y_test, y_pred, average='macro')}")
