@@ -40,7 +40,7 @@ class DataProcessing:
         self.logger.info("Created Client Age Column with NaN entries")
         self.df['Age'] = self.df.apply(lambda x: cef.fillInMissingAgeValues(x['Age'], x['Client Age'], x['Months']), axis = 1)
         self.df['Birth Year'] = self.df.apply(lambda x: cef.fillInMissingBirthYearValues(x['Age'], x['Birth Year'], x['Months']), axis = 1)
-        self.df['Client Age'] = self.df['Birth Year'].apply(cef.convertYearToAge) #to fill in all the previously NaN values in Client Age
+        self.df['Client Age'] = self.df['Birth Year'].apply(cef.convertYearToClientAge) #to fill in all the previously NaN values in Client Age
         self.logger.info("Created Client Age feature")
 
         self.df['Work Domain'] = self.df['Work Domain'].apply(cef.changeCategoryOfWorkDomain)
