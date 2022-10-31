@@ -39,9 +39,9 @@ class Model:
         encoder_df.reset_index()
         norm_df.reset_index()
 
+        X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)
         X = X.join(encoder_df)
         X = X.join(norm_df)
-        X = X.drop(['Branch', 'Work Domain', 'Monthly Income', 'Weekly Hours', 'Client Age', 'Months'], axis = 1)
         X_train, X_test, y_train, y_test = train_test_split(
             encoder_df, y, test_size=0.2, random_state=2
         )
