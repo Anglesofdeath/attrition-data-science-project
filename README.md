@@ -1,8 +1,5 @@
-### AIAP12 Assessment 2 Submission   
-Name: Joshua Ashwin Thomas;  Email: joshua_thomas@live.com   
-
 ##### Overview of folders      
-&emsp; 1. **.github folder** (provided by AIAP)   
+&emsp; 1. **.github folder**
 &emsp; 2. **src folder**    
 &emsp;&emsp; - **Conf folder** (contains config.yaml file)   
 &emsp;&emsp;&emsp; - **config.yaml** (contains the configurable settings for the machine learning pipeline)    
